@@ -9,9 +9,14 @@ $(function(){
 
         e.preventDefault();
 
+        //Get data from form
         let data = $(this).serializeArray();
 
-        let verify_data = data.forEach((value) => value !== " " ? true : false);
+        //Verify data from form
+        let verify_data;
+        data.forEach((valueform) => valueform.value !== "" ? verify_data = true : verify_data = false);
+
+        //Send valide data
         let clean_data = verify_data !== false ? data : null;
 
         console.log(clean_data);
