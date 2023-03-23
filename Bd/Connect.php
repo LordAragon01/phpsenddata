@@ -75,4 +75,15 @@ class Connect {
 
 	}
 
+	public function selectOnly($rawQuery):array
+	{
+
+		$stmt = $this->conn->prepare($rawQuery);
+
+		$stmt->execute();
+
+		return $stmt->fetch(\PDO::FETCH_ASSOC);
+
+	}
+
 }

@@ -20,13 +20,13 @@ class Employeer extends Connect{
     public $status;
     public $delivery_date;
 
-    public $employeer_data = [];
+    //public $employeer_data = [];
 
-    public function __construct(array $employeer_data){
+/*     public function __construct(array $employeer_data){
 
         $this->employeer_data = $employeer_data;
 
-    }
+    } */
 
     public function getEmployeer(){
 
@@ -42,18 +42,75 @@ class Employeer extends Connect{
 
     }
 
-    public function insertEmployeerTable(){
+    /**
+     * Insert data in Employeer Table
+     *
+     * @param array $employeer_data
+     * @return bool
+     */
+    public function insertEmployeerTable(array $employeer_data):bool
+    {
 
 
         try{
 
-            $confirm = $this->query("INSERT INTO employees (name, age, job, salary, admission_date) VALUES (:name, :age, :job, :salary, :admission_date)", $this->employeer_data);
+            $this->query("INSERT INTO employees (name, age, job, salary, admission_date) VALUES (:name, :age, :job, :salary, :admission_date)", $employeer_data);
 
-            return $confirm;
+            return true;
+
 
         }catch(PDOException $exception){
 
-            var_dump($exception);
+           if($exception){
+
+                return false;
+                //return $exception->getMessage();
+
+           }
+
+        }
+
+    }
+
+    /**
+     * Get the Last Insert Id in the Employees Table
+     *
+     * @param boolean $confirm
+     * @return integer
+     */
+    public function getLastIdEmployeerTable(bool $confirm):int
+    {
+
+        if($confirm === true){
+
+            $id = $this->selectOnly("SELECT MAX(id) AS 'id_employees' FROM `employees`");
+
+            return $id ["id_employees"];
+
+        }
+        
+
+    }
+
+    public function insertProjectsTable(array $employeer_data):bool
+    {
+
+
+        try{
+
+            $this->query("INSERT INTO projects (id_employee, description, value, status, delivery_date) VALUES (:id_employee, :description, :value, :status, :delivery_date)", $employeer_data);
+
+            return true;
+
+
+        }catch(PDOException $exception){
+
+           if($exception){
+
+                return false;
+                //return $exception->getMessage();
+
+           }
 
         }
 
