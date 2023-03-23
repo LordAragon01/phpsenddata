@@ -2,7 +2,12 @@
 
 namespace Controller\Employeer;
 
-class Employeer {
+include_once __DIR__ . '/../Bd/Connect.php';
+
+use PDOException;
+use Source\Bd\Connect;
+
+class Employeer extends Connect{
 
     public $name;
     public $age;
@@ -15,6 +20,14 @@ class Employeer {
     public $status;
     public $delivery_date;
 
+    public $employeer_data = [];
+
+    public function __construct(array $employeer_data){
+
+        $this->employeer_data = $employeer_data;
+
+    }
+
     public function getEmployeer(){
 
         return $this->name;
@@ -26,6 +39,23 @@ class Employeer {
         $this->name = $name;
 
         return $this->name;
+
+    }
+
+    public function insertEmployeerTable(){
+
+
+        try{
+
+            $confirm = $this->query("INSERT INTO employees (name, age, job, salary, admission_date) VALUES (:name, :age, :job, :salary, :admission_date)", $this->employeer_data);
+
+            return $confirm;
+
+        }catch(PDOException $exception){
+
+            var_dump($exception);
+
+        }
 
     }
 

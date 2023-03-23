@@ -4,12 +4,12 @@ use Controller\Employeer\Employeer;
 
 include_once __DIR__ . '/controller/Employeer.php';
 
-$employeer = new Employeer();
+/* $employeer = new Employeer();
 
 $employeer->setEmployeer('Joene Gonçalves Galdeano');
 $employeer->getEmployeer();
 
-echo $employeer->getEmployeer();
+echo $employeer->getEmployeer(); */
 
 ?>
 
