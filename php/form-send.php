@@ -11,61 +11,79 @@ if($data_form !== null){
 
     $get_clean_data = array_map("strip_tags", $data_form);
 
-    $data_send_db = new stdClass;
-    $data_send_db->name = strval($get_clean_data["employeer_name"]);
-    $data_send_db->age = intval($get_clean_data["employeer_age"]);
-    $data_send_db->job = strval($get_clean_data["employeer_job"]);
-    $data_send_db->salary = intval($get_clean_data["employeer_salary"]);
-    $data_send_db->admission = date('Y/m/d',strtotime($get_clean_data["employeer_admission_date"]));
-    $data_send_db->description = trim(strval($get_clean_data["employeer_description"]));
-    $data_send_db->value = intval($get_clean_data["employeer_value"]);
-    $data_send_db->status = trim(strval(strtolower($get_clean_data["employeer_status"])));
-    $data_send_db->delivery = date('Y/m/d',strtotime($get_clean_data["employeer_delivery_date"]));
+    //Verify type of values in array
+    $first_verify_list = [$get_clean_data["employeer_name"], $get_clean_data["employeer_job"], $get_clean_data["employeer_description"], $get_clean_data["employeer_status"]];
+    $verify_value_isnumber = array_filter($first_verify_list, "ctype_digit");
+    //$verify_value_iscontainnumber = array_filter($first_verify_list, "ctype_alnum");
 
-    //Primary Data for Employee
-    $employee_data = [
-        ':name' =>  $data_send_db->name,
-        ':age' => $data_send_db->age,
-        ':job' =>  $data_send_db->job, 
-        ':salary' => $data_send_db->salary,
-        ':admission_date' => $data_send_db->admission 
-    ];
+    if(count($verify_value_isnumber) == 0){
 
-    //Class Employeer
-    $employee = new Employeer();
+        $data_send_db = new stdClass;
+        $data_send_db->name = strval($get_clean_data["employeer_name"]);
+        $data_send_db->age = intval($get_clean_data["employeer_age"]);
+        $data_send_db->job = strval($get_clean_data["employeer_job"]);
+        $data_send_db->salary = intval($get_clean_data["employeer_salary"]);
+        $data_send_db->admission = date('Y/m/d',strtotime($get_clean_data["employeer_admission_date"]));
+        $data_send_db->description = trim(strval($get_clean_data["employeer_description"]));
+        $data_send_db->value = intval($get_clean_data["employeer_value"]);
+        $data_send_db->status = trim(strval(strtolower($get_clean_data["employeer_status"])));
+        $data_send_db->delivery = date('Y/m/d',strtotime($get_clean_data["employeer_delivery_date"]));
 
-    //First Insert
-    $confirm_firstinsert = $employee->insertEmployeerTable($employee_data);
-
-    //Verify insert employees Table
-    if($confirm_firstinsert){
-
-        //Get Last Insert Id in Employees Table
-        $id_employee = $employee->getLastIdEmployeerTable($confirm_firstinsert);
-
-        //Secondary Data for Projects
-        $projects_data = [
-            ':id_employee' => intval($id_employee), 
-            ':description' => $data_send_db->description, 
-            ':value' => $data_send_db->value, 
-            ':status' => $data_send_db->status, 
-            ':delivery_date' => $data_send_db->delivery,
+        //Primary Data for Employee
+        $employee_data = [
+            ':name' =>  $data_send_db->name,
+            ':age' => $data_send_db->age,
+            ':job' =>  $data_send_db->job, 
+            ':salary' => $data_send_db->salary,
+            ':admission_date' => $data_send_db->admission 
         ];
 
-        $confirm_secondinsert = $employee->insertProjectsTable($projects_data);
+        //Class Employeer
+        $employee = new Employeer();
 
-        if($confirm_secondinsert){
+        //First Insert
+        $confirm_firstinsert = $employee->insertEmployeerTable($employee_data);
 
-            echo json_encode(["Success" => "Empregado registado com Sucesso"]);
+        //Verify insert employees Table
+        if($confirm_firstinsert){
+
+            //Get Last Insert Id in Employees Table
+            $id_employee = $employee->getLastIdEmployeerTable($confirm_firstinsert);
+
+            //Secondary Data for Projects
+            $projects_data = [
+                ':id_employee' => intval($id_employee), 
+                ':description' => $data_send_db->description, 
+                ':value' => $data_send_db->value, 
+                ':status' => $data_send_db->status, 
+                ':delivery_date' => $data_send_db->delivery,
+            ];
+
+            $confirm_secondinsert = $employee->insertProjectsTable($projects_data);
+
+            if($confirm_secondinsert){
+
+                echo json_encode(["Success" => "Empregado registado com Sucesso"]);
+
+            }
+
+            exit;
 
         }
+
+        exit; 
+
+    }else{
+
+        echo json_encode(["Error" => "Favor Informar Dados Válidos"]);
 
         exit;
 
     }
 
-    exit;
 
 }
+
+echo json_encode(["Error" => "Favor Preencher o Formulário"]);
 
 die;

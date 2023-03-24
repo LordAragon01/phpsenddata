@@ -6,7 +6,8 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . 'controller'. DIRECTORY_SEPARATOR .
 
 $employee = new Employeer();
 
-$employee->setName("Leticia");
+//$employee->setName("Leticia");
+$employee->setName();
 
 $name = $employee->getName();
 
