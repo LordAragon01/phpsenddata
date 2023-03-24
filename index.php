@@ -6,7 +6,7 @@ include_once __DIR__ . DIRECTORY_SEPARATOR . 'controller'. DIRECTORY_SEPARATOR .
 
 $employee = new Employeer();
 
-$employee->setName();
+$employee->setName("Leticia");
 
 $name = $employee->getName();
 
@@ -143,14 +143,31 @@ $alldata_employee = $employee->getAllEmployees();
 
                                                 echo '<tr>';
 
-                                                    foreach($employee_data as $value){
+                                                    $salary;
 
-                                                        echo '<td>'. $value .'</td>';
-                                                        echo '<td> 100 </td>';
+                                                    foreach($employee_data as $key => $value){
+
+
+                                                        if($key == "salary"){
+
+                                                            $salary = $value;
+
+                                                            echo '<td>'. number_format($value, 2, ',', '.') .'</td>';
+
+                                                        }else{
+
+                                                            echo '<td>'. $value .'</td>';
+
+                                                        }
                 
                                                     }
 
+                                                    echo '<td>'. number_format($employee->salaryIncrement($salary, 20), 2, ',', '.') .'</td>';
+
                                                 echo '</tr>';
+
+                                                //Destruir Variável
+                                                unset($salary);
 
                                         }else{
 

@@ -88,7 +88,7 @@ class Employeer extends Connect{
 
             $id = $this->selectOnly("SELECT MAX(id) AS 'id_employees' FROM `employees`");
 
-            return $id ["id_employees"];
+            return $id->id_employees;
 
         }
         
@@ -131,14 +131,14 @@ class Employeer extends Connect{
      * @param string $name
      * @return array
      */
-    public function getEmployeer(?string $name):array|string
+    public function getEmployeer(?string $name):object|string|array
     {
 
         if(!is_null($name)){
 
             $result = $this->selectOnly("SELECT name, age, job, salary, admission_date, description, value,  status, delivery_date FROM `employees` AS e INNER JOIN `projects` AS p ON e.id = p.id_employee WHERE `name` = '". trim(strval($name)) ."' ORDER BY e.id DESC LIMIT 1");
 
-            return $result;
+            return json_decode(json_encode($result, true));
 
         }else{
 

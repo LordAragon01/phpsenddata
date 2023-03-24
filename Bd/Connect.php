@@ -75,14 +75,14 @@ class Connect {
 
 	}
 
-	public function selectOnly($rawQuery):array
+	public function selectOnly($rawQuery):object
 	{
 
 		$stmt = $this->conn->prepare($rawQuery);
 
 		$stmt->execute();
 
-		return $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $stmt->fetch(\PDO::FETCH_OBJ);
 
 	}
 
