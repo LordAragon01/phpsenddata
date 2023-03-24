@@ -15,6 +15,7 @@ if($data_form !== null){
     $first_verify_list = [$get_clean_data["employeer_name"], $get_clean_data["employeer_job"], $get_clean_data["employeer_description"], $get_clean_data["employeer_status"]];
     $verify_value_isnumber = array_filter($first_verify_list, "ctype_digit");
     //$verify_value_iscontainnumber = array_filter($first_verify_list, "ctype_alnum");
+    //$verify_empty_value = array_filter($first_verify_list, "empty");
 
     if(count($verify_value_isnumber) == 0){
 
