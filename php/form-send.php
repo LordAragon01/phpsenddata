@@ -32,9 +32,9 @@ if($data_form !== null){
 
         //Primary Data for Employee and prevent Sql Injection
         $employee_data = [
-            ':name' =>  preg_replace('/[^[:alpha:]_]/', '', $data_send_db->name),
+            ':name' =>  preg_replace("/^[a-zA-ZÀ-ú]$/", '', $data_send_db->name),
             ':age' => preg_replace('/[^[:alnum:]_]/', '', $data_send_db->age),
-            ':job' =>  preg_replace('/[^[:alpha:]_]/', '', $data_send_db->job), 
+            ':job' =>  preg_replace("/^[a-zA-ZÀ-ú]$/", '', $data_send_db->job), 
             ':salary' => preg_replace('/[^[:alnum:]_]/', '', $data_send_db->salary),
             ':admission_date' => preg_replace("/[^a-zA-Z0-9\.]/", '', $data_send_db->admission)
         ];
@@ -54,7 +54,7 @@ if($data_form !== null){
             //Secondary Data for Projects and prevent Sql Injection
             $projects_data = [
                 ':id_employee' => preg_replace('/[^[:alnum:]_]/', '', intval($id_employee)), 
-                ':description' => preg_replace('/[^[:alpha:]_]/', '', $data_send_db->description), 
+                ':description' => preg_replace("/^[a-zA-ZÀ-ú]$/", '', $data_send_db->description), 
                 ':value' => preg_replace('/[^[:alnum:]_]/', '', $data_send_db->value), 
                 ':status' => preg_replace('/[^[:alpha:]_]/', '', $data_send_db->status), 
                 ':delivery_date' => preg_replace("/[^a-zA-Z0-9\.]/", '', $data_send_db->delivery),
