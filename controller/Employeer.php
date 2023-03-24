@@ -21,6 +21,8 @@ class Employeer extends Connect{
     public $status;
     public $delivery_date;
 
+    public $porcent_value;
+
     /**
      * Get Employee Name
      *
@@ -42,6 +44,30 @@ class Employeer extends Connect{
     public function setName(string $name = null){
 
         $this->name = $name;
+
+    }
+
+     /**
+     * Get value for Porcent
+     *
+     * @return int
+     */
+    public function getPorcent():int
+    {
+
+        return $this->porcent_value;
+
+    }
+
+    /**
+     * Set value for Porcent
+     *
+     * @param int $value
+     * @return void
+     */
+    public function setPorcent(int $value){
+
+        $this->porcent_value = $value;
 
     }
 
@@ -290,7 +316,7 @@ class Employeer extends Connect{
 
         $current_year = date('Y');
 
-        $result = $this->select("SELECT description, value,  status, delivery_date FROM `projects` WHERE `delivery_date` BETWEEN   '".$current_year."-01-01' AND '".$current_year."-12-31' AND `status` = 'concluido' OR `status` = 'entregues' ORDER BY id DESC");
+        $result = $this->select("SELECT e.name, p.description, p.value, p.status, p.delivery_date FROM `projects` AS p INNER JOIN `employees` AS e ON e.id = p.id_employee WHERE p.delivery_date BETWEEN  '".$current_year."-01-01' AND '".$current_year."-12-31' AND p.status = 'concluido' OR p.status = 'entregues' ORDER BY p.id DESC");
 
         return $result;
 

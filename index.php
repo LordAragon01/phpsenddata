@@ -8,8 +8,10 @@ $employee = new Employeer();
 
 //$employee->setName("Leticia");
 $employee->setName();
-
 $name = $employee->getName();
+
+$employee->setPorcent(25);
+$porcent_value = $employee->getPorcent();
 
 
 $employee_data = $employee->getEmployeer($name);
@@ -167,7 +169,7 @@ $alldata_employee = $employee->getAllEmployees();
                 
                                                     }
 
-                                                    echo '<td>'. number_format($employee->salaryIncrement($salary, 20), 2, ',', '.') .'</td>';
+                                                    echo '<td>'. number_format($employee->salaryIncrement($salary, $porcent_value), 2, ',', '.') .'</td>';
 
                                                 echo '</tr>';
 
@@ -188,7 +190,7 @@ $alldata_employee = $employee->getAllEmployees();
                                                     echo '<td>'. $value->value .'</td>';
                                                     echo '<td>'. ucwords($value->status) .'</td>';
                                                     echo '<td>'. $value->delivery_date .'</td>';
-                                                    echo '<td>'. number_format($employee->salaryIncrement($value->salary, 20), 2, ',', '.') .'</td>';
+                                                    echo '<td>'. number_format($employee->salaryIncrement($value->salary, $porcent_value), 2, ',', '.') .'</td>';
                                                 echo '</tr>';
 
                                             }
@@ -210,6 +212,7 @@ $alldata_employee = $employee->getAllEmployees();
                         <table class="table order-4" style="width:75%;height:auto;">
                             <thead>
                                 <tr>
+                                    <th scope="col">Nome</th>
                                     <th scope="col">Descrição</th>
                                     <th scope="col">Valor</th>
                                     <th scope="col">Status</th>
@@ -225,6 +228,7 @@ $alldata_employee = $employee->getAllEmployees();
                                         foreach($ptoject_done as $value){
 
                                             echo '<tr>';
+                                                echo '<td>'. $value->name .'</td>';
                                                 echo '<td>'. $value->description .'</td>';
                                                 echo '<td>'. $value->value .'</td>';
                                                 echo '<td>'. ucwords($value->status) .'</td>';
