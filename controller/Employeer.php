@@ -45,6 +45,30 @@ class Employeer extends Connect{
 
     }
 
+     /**
+     * Get Job
+     *
+     * @return null|string
+     */
+    public function getJob():?string
+    {
+
+        return $this->job;
+
+    }
+
+    /**
+     * Set Job
+     *
+     * @param string|null $name
+     * @return void
+     */
+    public function setJob(string $job = null){
+
+        $this->job = $job;
+
+    }
+
     /**
      * Insert data in Employeer Table
      *
@@ -156,12 +180,50 @@ class Employeer extends Connect{
      *
      * @return array
      */
-    public function getAllEmployees():array
+    public function getAllEmployees():array|string
     {
 
         $result = $this->select("SELECT name, age, job, salary, admission_date, description, value,  status, delivery_date FROM `employees` AS e INNER JOIN `projects` AS p ON e.id = p.id_employee ORDER BY e.id ASC");
 
-        return $result;
+        if(count($result) > 0 ){
+
+            return $result;
+
+        }else{
+
+            $exception = new Exception("Não existem dados na Tabela");
+
+            return $exception->getMessage();
+
+        }
+        
+
+    }
+
+    /**
+     * List with all jobs
+     *
+     * @return string
+     */
+    public function listOfAllJobs():string
+    {
+
+        $result = $this->select("SELECT job FROM `employees` ORDER BY id");
+
+        $job_list = [];
+
+        if(count($result) > 0){
+
+            foreach($result as $value){
+
+                array_push($job_list, $value->job);
+
+            }
+
+            return implode(", ", $job_list);
+
+        }
+
 
     }
 

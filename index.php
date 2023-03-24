@@ -115,9 +115,13 @@ $alldata_employee = $employee->getAllEmployees();
                         //Check if exist value
                         if(is_array($alldata_employee) && count($alldata_employee) > 0){
 
-                            $media = $employee->mediaAge();
 
-                            echo '<h3 class="my-3 w-100 text-center order-1">Idade Média dos Funcionários: '. $media .'</h3>';
+                            echo '<h3 class="my-3 w-100 text-center order-1">Idade Média dos Funcionários: '. $employee->mediaAge() .'</h3>';
+
+                            echo '</br>';
+
+                            echo '<h4 class="my-3 w-100 text-center order-1">Lista com a Função de todos os Funcionários: '. $employee->listOfAllJobs() .'.</h4>';
+
 
                     ?>        
                     
@@ -278,7 +282,7 @@ $alldata_employee = $employee->getAllEmployees();
                     
                         }else{
 
-                        $message_error = is_string($employee_data) ? $employee_data : 'Error';
+                        $message_error = is_string($alldata_employee) ? $alldata_employee : 'Error';
 
                         echo $message_error;
 
