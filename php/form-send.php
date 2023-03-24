@@ -29,13 +29,13 @@ if($data_form !== null){
         $data_send_db->status = trim(strval(strtolower($get_clean_data["employeer_status"])));
         $data_send_db->delivery = date('Y/m/d',strtotime($get_clean_data["employeer_delivery_date"]));
 
-        //Primary Data for Employee
+        //Primary Data for Employee and prevent Sql Injection
         $employee_data = [
-            ':name' =>  $data_send_db->name,
-            ':age' => $data_send_db->age,
-            ':job' =>  $data_send_db->job, 
-            ':salary' => $data_send_db->salary,
-            ':admission_date' => $data_send_db->admission 
+            ':name' =>  preg_replace('/[^[:alpha:]_]/', '', $data_send_db->name),
+            ':age' => preg_replace('/[^[:alnum:]_]/', '', $data_send_db->age),
+            ':job' =>  preg_replace('/[^[:alpha:]_]/', '', $data_send_db->job), 
+            ':salary' => preg_replace('/[^[:alnum:]_]/', '', $data_send_db->salary),
+            ':admission_date' => preg_replace("/[^a-zA-Z0-9\.]/", '', $data_send_db->admission)
         ];
 
         //Class Employeer
@@ -50,13 +50,13 @@ if($data_form !== null){
             //Get Last Insert Id in Employees Table
             $id_employee = $employee->getLastIdEmployeerTable($confirm_firstinsert);
 
-            //Secondary Data for Projects
+            //Secondary Data for Projects and prevent Sql Injection
             $projects_data = [
-                ':id_employee' => intval($id_employee), 
-                ':description' => $data_send_db->description, 
-                ':value' => $data_send_db->value, 
-                ':status' => $data_send_db->status, 
-                ':delivery_date' => $data_send_db->delivery,
+                ':id_employee' => preg_replace('/[^[:alnum:]_]/', '', intval($id_employee)), 
+                ':description' => preg_replace('/[^[:alpha:]_]/', '', $data_send_db->description), 
+                ':value' => preg_replace('/[^[:alnum:]_]/', '', $data_send_db->value), 
+                ':status' => preg_replace('/[^[:alpha:]_]/', '', $data_send_db->status), 
+                ':delivery_date' => preg_replace("/[^a-zA-Z0-9\.]/", '', $data_send_db->delivery),
             ];
 
             $confirm_secondinsert = $employee->insertProjectsTable($projects_data);
