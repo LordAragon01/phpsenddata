@@ -242,6 +242,7 @@ $alldata_employee = $employee->getAllEmployees();
                         <table class="table order-6" style="width:75%;height:auto;">
                             <thead>
                                 <tr>
+                                    <th scope="col">Nome</th>
                                     <th scope="col">Descrição</th>
                                     <th scope="col">Valor</th>
                                     <th scope="col">Status</th>
