@@ -4,6 +4,7 @@ namespace Controller\Employeer;
 
 include_once __DIR__ . '/../Bd/Connect.php';
 
+use Exception;
 use PDOException;
 use Source\Bd\Connect;
 
@@ -20,25 +21,27 @@ class Employeer extends Connect{
     public $status;
     public $delivery_date;
 
-    //public $employeer_data = [];
-
-/*     public function __construct(array $employeer_data){
-
-        $this->employeer_data = $employeer_data;
-
-    } */
-
-    public function getEmployeer(){
+    /**
+     * Get Employee Name
+     *
+     * @return null|string
+     */
+    public function getName():?string
+    {
 
         return $this->name;
 
     }
-    
-    public function setEmployeer($name){
+
+    /**
+     * Set Employee Name
+     *
+     * @param string|null $name
+     * @return void
+     */
+    public function setName(string $name = null){
 
         $this->name = $name;
-
-        return $this->name;
 
     }
 
@@ -92,13 +95,19 @@ class Employeer extends Connect{
 
     }
 
-    public function insertProjectsTable(array $employeer_data):bool
+    /**
+     * Insert data in Project Table
+     *
+     * @param array $projects_data
+     * @return boolean
+     */
+    public function insertProjectsTable(array $projects_data):bool
     {
 
 
         try{
 
-            $this->query("INSERT INTO projects (id_employee, description, value, status, delivery_date) VALUES (:id_employee, :description, :value, :status, :delivery_date)", $employeer_data);
+            $this->query("INSERT INTO projects (id_employee, description, value, status, delivery_date) VALUES (:id_employee, :description, :value, :status, :delivery_date)", $projects_data);
 
             return true;
 
@@ -113,6 +122,99 @@ class Employeer extends Connect{
            }
 
         }
+
+    }
+
+    /**
+     * Get Data from Employee
+     *
+     * @param string $name
+     * @return array
+     */
+    public function getEmployeer(?string $name):array|string
+    {
+
+        if(!is_null($name)){
+
+            $result = $this->selectOnly("SELECT name, age, job, salary, admission_date, description, value,  status, delivery_date FROM `employees` AS e INNER JOIN `projects` AS p ON e.id = p.id_employee WHERE `name` = '". trim(strval($name)) ."' ORDER BY e.id DESC LIMIT 1");
+
+            return $result;
+
+        }else{
+
+            $exception = new Exception("Não existe dados na Tabela");
+
+            return $exception->getMessage();
+
+        }
+
+
+    }
+
+    /**
+     * Get All Data from Employees Table
+     *
+     * @return array
+     */
+    public function getAllEmployees():array
+    {
+
+        $result = $this->select("SELECT name, age, job, salary, admission_date, description, value,  status, delivery_date FROM `employees` AS e INNER JOIN `projects` AS p ON e.id = p.id_employee ORDER BY e.id ASC");
+
+        return $result;
+
+    }
+
+    /**
+     * Get the number of total Employees
+     *
+     * @return integer|null
+     */
+    public function totalEmployees():?int
+    {
+
+        $result = $this->select("SELECT COUNT('id') AS 'total_employees' FROM `employees`");
+
+        return $result[0]->total_employees;
+
+    }
+
+    /**
+     * Get Average Age from Employee
+     *
+     * @return integer|null
+     */
+    public function mediaAge():?int
+    {
+
+        $total_insert = $this->totalEmployees();
+
+        $result = $this->select("SELECT SUM(age) AS 'total_age' FROM `employees`");
+       
+        $total_age = $result[0]->total_age;
+
+        $media = $total_age / $total_insert;
+
+        return ceil($media);
+
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param float $salary
+     * @param integer $porcent
+     * @return float|int
+     */
+    public function salaryIncrement(int $salary, int $porcent):float|int
+    {
+
+
+        $increment_salary = ($salary * $porcent) / 100;
+
+        $total_of_salary = $salary + $increment_salary;
+
+        return $total_of_salary;
 
     }
 

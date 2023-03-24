@@ -15,7 +15,7 @@ if($data_form !== null){
     $data_send_db->name = strval($get_clean_data["employeer_name"]);
     $data_send_db->age = intval($get_clean_data["employeer_age"]);
     $data_send_db->job = strval($get_clean_data["employeer_job"]);
-    $data_send_db->salary = number_format($get_clean_data["employeer_salary"], 2, ',', '.');
+    $data_send_db->salary = intval($get_clean_data["employeer_salary"]);
     $data_send_db->admission = date('Y/m/d',strtotime($get_clean_data["employeer_admission_date"]));
     $data_send_db->description = strval($get_clean_data["employeer_description"]);
     $data_send_db->value = intval($get_clean_data["employeer_value"]);
@@ -52,9 +52,19 @@ if($data_form !== null){
             ':delivery_date' => $data_send_db->delivery,
         ];
 
+        $confirm_secondinsert = $employee->insertProjectsTable($projects_data);
+
+        if($confirm_secondinsert){
+
+            echo json_encode(["Success" => "Empregado registado com Sucesso"]);
+
+        }
+
+        exit;
 
     }
 
+    exit;
 
 }
 
