@@ -218,4 +218,35 @@ class Employeer extends Connect{
 
     }
 
+    /**
+     * Get Project if status is concluido ou entregues
+     *
+     * @return array
+     */
+    public function getProjectDone():array
+    {
+
+        $current_year = date('Y');
+
+        $result = $this->select("SELECT description, value,  status, delivery_date FROM `projects` WHERE `delivery_date` BETWEEN   '".$current_year."-01-01' AND '".$current_year."-12-31' AND `status` = 'concluido' OR `status` = 'entregues' ORDER BY id DESC");
+
+        return $result;
+
+    }
+
+    /**
+     * Get Project if status is not conclued
+     *
+     * @return array
+     */
+    public function projectNotDone():array
+    {
+
+
+        $result = $this->select("SELECT e.name AS 'nome', p.description, p.value, p.status, p.delivery_date FROM `employees` AS e INNER JOIN `projects` AS p ON e.id = p.id_employee WHERE p.delivery_date BETWEEN '2023-01-01' AND '2023-12-31' AND p.status != 'concluido' ORDER BY p.delivery_date ASC");
+
+        return $result;
+
+    }
+
 }

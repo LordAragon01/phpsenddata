@@ -29,6 +29,8 @@ $(function(){
 
                 console.log("Enviado com Sucesso");
 
+                window.location = href;
+
             },
             error: function(){
 

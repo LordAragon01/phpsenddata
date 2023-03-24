@@ -17,9 +17,9 @@ if($data_form !== null){
     $data_send_db->job = strval($get_clean_data["employeer_job"]);
     $data_send_db->salary = intval($get_clean_data["employeer_salary"]);
     $data_send_db->admission = date('Y/m/d',strtotime($get_clean_data["employeer_admission_date"]));
-    $data_send_db->description = strval($get_clean_data["employeer_description"]);
+    $data_send_db->description = trim(strval($get_clean_data["employeer_description"]));
     $data_send_db->value = intval($get_clean_data["employeer_value"]);
-    $data_send_db->status = strval($get_clean_data["employeer_status"]);
+    $data_send_db->status = trim(strval(strtolower($get_clean_data["employeer_status"])));
     $data_send_db->delivery = date('Y/m/d',strtotime($get_clean_data["employeer_delivery_date"]));
 
     //Primary Data for Employee
