@@ -2,7 +2,7 @@
 
 use Controller\Employeer\Employeer;
 
-require_once __DIR__ . '/../controller/Employeer.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'controller'. DIRECTORY_SEPARATOR .'Employeer.php';
 
 
 $data_form = filter_input_array(INPUT_POST, FILTER_DEFAULT);

@@ -2,7 +2,7 @@
 
 namespace Controller\Employeer;
 
-include_once __DIR__ . '/../Bd/Connect.php';
+include_once __DIR__ . DIRECTORY_SEPARATOR . '..'. DIRECTORY_SEPARATOR .'Bd'. DIRECTORY_SEPARATOR .'Connect.php';
 
 use Exception;
 use PDOException;
